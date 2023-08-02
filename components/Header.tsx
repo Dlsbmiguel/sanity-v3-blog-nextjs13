@@ -7,22 +7,22 @@ const Header = () => {
       <div className="flex items-center space-x-2">
         <Link href="/">
           <Image
-            src="https://links.papareact.com/1m8"
+            src="/user-logo.png"
             width={50}
             height={50}
             className="rounded-full"
             alt="logo"
           />
         </Link>
-        <h1>The PAPAFAM</h1>
+        <h1>My Blog</h1>
       </div>
 
       <div className="">
         <Link
-          href="https://www.google.com"
+          href="#"
           className="px-5 py-3 text-sm md:text-base bg-gray-900 text-[#F7AB0A] flex items-center rounded-full text-center"
         >
-          Sign up to the University of Code
+          Sign up to the best blog online
         </Link>
       </div>
     </header>
