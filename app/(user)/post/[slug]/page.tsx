@@ -4,30 +4,38 @@ import { groq } from "next-sanity";
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import { RichTextComponents } from "@/components/RichTextComponents";
+
 type Props = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export const revalidate = 30; // revalidate this page every 30 seconds
 
 export async function generateStaticParams() {
-  const query = groq`
-    *[_type=="post"]{
-        slug
-    }
-  `;
+  try {
+    const query = groq`
+      *[_type=="post"]{
+          slug
+      }
+    `;
 
-  const slugs: Post[] = await sanityClient.fetch(query);
-  const slugRoutes = slugs.map((slug) => slug.slug.current);
+    const slugs: Post[] = await sanityClient.fetch(query);
+    const slugRoutes = slugs.map((slug) => slug.slug.current);
 
-  return slugRoutes.map((slug) => ({
-    slug,
-  }));
+    return slugRoutes.map((slug) => ({
+      slug,
+    }));
+  } catch (error) {
+    console.warn("Failed to generate static params:", error);
+    return [];
+  }
 }
 
-const Post = async ({ params: { slug } }: Props) => {
+const Post = async ({ params }: Props) => {
+  const { slug } = await params;
+
   const query = groq`
     *[_type=="post" && slug.current == $slug][0]
     {
@@ -37,7 +45,32 @@ const Post = async ({ params: { slug } }: Props) => {
     } 
   `;
 
-  const post: Post = await sanityClient.fetch(query, { slug });
+  let post: Post;
+
+  try {
+    post = await sanityClient.fetch(query, { slug });
+  } catch (error) {
+    console.error("Failed to fetch post:", error);
+    return (
+      <article className="px-10 pb-28">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Post not found</h1>
+          <p>Unable to load the requested post.</p>
+        </div>
+      </article>
+    );
+  }
+
+  if (!post) {
+    return (
+      <article className="px-10 pb-28">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold">Post not found</h1>
+          <p>The requested post could not be found.</p>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className="px-10 pb-28">
