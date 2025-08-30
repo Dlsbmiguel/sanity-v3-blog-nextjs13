@@ -1,19 +1,15 @@
 "use client";
 
-import { definePreview } from "next-sanity/preview";
+import { createClient } from "next-sanity";
 import { projectId, dataset } from "./sanity.client";
 
-function onPublicAccessOnly() {
-  throw new Error(`Unable to load preview as you're not logged in`);
-
-  if (!projectId || !dataset) {
-    throw new Error(
-      `Missing projectId or dataset. Check your sanity.json or .env`
-    );
-  }
-}
-export const usePreview = definePreview({
+const client = createClient({
   projectId,
   dataset,
-  onPublicAccessOnly,
+  apiVersion: "2024-01-01",
+  useCdn: false,
 });
+
+export const usePreview = (query: string, params: any) => {
+  return client.fetch(query, params);
+};

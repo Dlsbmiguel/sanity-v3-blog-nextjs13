@@ -1,6 +1,6 @@
 "use client";
 
-import { usePreview } from "../lib/sanity.preview";
+import { useLiveQuery } from "next-sanity/preview";
 import BlogList from "./BlogList";
 
 type Props = {
@@ -8,8 +8,9 @@ type Props = {
 };
 
 const PreviewBlogList = ({ query }: Props) => {
-  const posts = usePreview(null, query);
-  return <BlogList posts={posts} />;
+  const [data] = useLiveQuery([], query, {});
+
+  return <BlogList posts={data || []} />;
 };
 
 export default PreviewBlogList;
