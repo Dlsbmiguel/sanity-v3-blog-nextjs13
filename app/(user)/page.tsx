@@ -1,8 +1,5 @@
-import { draftMode } from "next/headers";
 import { groq } from "next-sanity";
 import { sanityClient } from "@/lib/sanity.client";
-import { PreviewSuspense } from "@/components/PreviewSuspense";
-import PreviewBlogList from "@/components/PreviewBlogList";
 import BlogList from "@/components/BlogList";
 
 const query = groq`
@@ -16,16 +13,6 @@ const query = groq`
 export const revalidate = 30; // revalidate this page every 30 seconds
 
 const HomePage = async () => {
-  const { isEnabled } = await draftMode();
-
-  if (isEnabled) {
-    return (
-      <PreviewSuspense>
-        <PreviewBlogList query={query} />
-      </PreviewSuspense>
-    );
-  }
-
   let posts;
   try {
     posts = await sanityClient.fetch(query);
