@@ -76,7 +76,7 @@ const Post = async ({ params }: Props) => {
     <article className="px-10 pb-28">
       <section className="space-y-2 border border-[#F7AB0A] text-white">
         <div className="relative flex flex-col justify-between min-h-56 md:flex-row">
-          <div className="absolute top-0 w-full h-full p-10 opacity-10 blur-sm">
+          <div className="absolute top-0 w-full h-full p-10 opacity-10 blur-xs">
             {post.mainImage ? (
               <Image
                 className="object-cover object-center mx-auto"

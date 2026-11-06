@@ -1,4 +1,4 @@
-import { DefaultDocumentNodeResolver } from "sanity/desk";
+import { DefaultDocumentNodeResolver } from "sanity/structure";
 
 export const getDefaultDocumentNode: DefaultDocumentNodeResolver = (
   S,

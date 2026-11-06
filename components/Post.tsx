@@ -20,7 +20,7 @@ const Post = ({ post }: Props) => {
           />
           <div
             //backdrop-blur-lg
-            className="absolute bottom-0 flex justify-between w-full p-5 text-white bg-black rounded bg-opacity-20 drop-shadow-lg"
+            className="absolute bottom-0 flex justify-between w-full p-5 text-white bg-black/20 rounded-sm drop-shadow-lg"
           >
             <div>
               <p className="font-bold">{post.title}</p>
