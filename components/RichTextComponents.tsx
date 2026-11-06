@@ -48,7 +48,7 @@ export const RichTextComponents = {
   },
   marks: {
     link: ({ children, value }: any) => {
-      const rel = !value.heref.startsWith("/")
+      const rel = !value.href.startsWith("/")
         ? "noopener noreferrer"
         : undefined;
 
